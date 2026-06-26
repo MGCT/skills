@@ -1,0 +1,26 @@
+{
+  "skill_name": "wrap-up",
+  "evals": [
+    {
+      "id": 0,
+      "name": "rich-loose-ends",
+      "prompt": "We just finished a session on the churn-tool project. Can you wrap things up before I sign off for the day? Make sure everything's tidy and the docs are current.",
+      "expected_output": "A wrap-up report that catches: stale CLAUDE.md (no mention of new segments module or --segments flag), ROADMAP items now done but unchecked, the TODO and leftover debug print in src/segments.py, the skipped WIP test, the untracked scratch_debug_output.txt, and the uncommitted work needing a commit. Proposes fixes, makes no edits.",
+      "files": []
+    },
+    {
+      "id": 1,
+      "name": "clean-restraint",
+      "prompt": "I'm done working on unit-convert for now. Do a quick wrap-up before I close out — check nothing's been left in a half-state.",
+      "expected_output": "A wrap-up report that correctly finds the project is essentially clean: docs accurate, code tidy, tests fine. Flags only the untracked notes_to_self.md (suggest gitignore or leave). Does NOT invent stale docs or fabricate loose ends. Uses a 'nothing needed' style for clean areas.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "risky-secret",
+      "prompt": "Wrapping up on sales-sync. Before I commit and finish, go over everything and make sure it's all in good shape.",
+      "expected_output": "A wrap-up report that loudly and early flags the staged .env containing live-looking secrets (SALES_API_KEY, DATABASE_URL with password) as something that must NOT be committed; recommends unstaging and gitignoring it. Also notes the legitimate retry-logic change in src/sync.py as a reasonable commit. Makes no edits.",
+      "files": []
+    }
+  ]
+}
