@@ -1,18 +1,17 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
   "name": "claude-skills",
-  "description": "MESH custom Claude Code skills for marketing analytics & data science work.",
+  "description": "A collection of custom Claude Code skills.",
   "owner": {
-    "name": "Mark Thompson",
-    "email": "markthompson@meshexperience.com"
+    "name": "Mark Thompson"
   },
   "plugins": [
     {
-      "name": "mesh-skills",
-      "source": "./plugins/mesh-skills",
-      "description": "Reusable analytics, brand-tracking, and reporting skills used across MESH projects.",
+      "name": "toolkit",
+      "source": "./plugins/toolkit",
+      "description": "Reusable skills for everyday project work — session wrap-up, and more to come.",
       "category": "productivity",
-      "keywords": ["analytics", "marketing", "data-science", "mesh"]
+      "keywords": ["workflow", "productivity", "housekeeping", "documentation"]
     }
   ]
 }

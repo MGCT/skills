@@ -1,7 +1,7 @@
 ---
-# Copy this whole folder to: plugins/mesh-skills/skills/<your-skill-name>/SKILL.md
+# Copy this whole folder to: plugins/toolkit/skills/<your-skill-name>/SKILL.md
 # Required:
-name: my-skill-name            # kebab-case; becomes /mesh-skills:my-skill-name
+name: my-skill-name            # kebab-case; becomes /toolkit:my-skill-name
 description: One or two sentences describing WHAT this does and WHEN to use it. This is the only text Claude reads to decide whether to auto-trigger the skill, so be specific about the trigger conditions and the kind of request it matches.
 
 # --- Optional fields (delete the ones you don't need) ---
