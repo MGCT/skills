@@ -1,0 +1,23 @@
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+.idea/
+.vscode/
+
+# Python (for any analytics helper scripts bundled with skills)
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Local Claude state
+.claude/settings.local.json
+
+# Secrets / credentials — never commit these
+.env
+*.key
+*.pem
+credentials*.json

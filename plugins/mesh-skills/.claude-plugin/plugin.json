@@ -1,0 +1,11 @@
+{
+  "name": "mesh-skills",
+  "displayName": "MESH Skills",
+  "description": "Reusable analytics, brand-tracking, and reporting skills used across MESH projects.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Mark Thompson",
+    "email": "markthompson@meshexperience.com"
+  },
+  "keywords": ["analytics", "marketing", "data-science", "mesh"]
+}
