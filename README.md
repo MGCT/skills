@@ -6,34 +6,57 @@ it once and the skills are available in any project, on any machine.
 ## Repository layout
 
 ```
-claude-skills/
+skills (MGCT/skills)/
 ├── .claude-plugin/
-│   └── marketplace.json          # declares the marketplace + which plugins it offers
-├── plugins/
-│   └── toolkit/                  # the plugin (a bundle of skills)
-│       ├── .claude-plugin/
-│       │   └── plugin.json        # plugin manifest
-│       └── skills/
-│           └── <skill-name>/
-│               ├── SKILL.md       # one folder per skill
-│               └── scripts/       # optional bundled helper scripts
+│   ├── marketplace.json          # declares the marketplace + the plugin it offers
+│   └── plugin.json               # plugin manifest (the repo root is the plugin)
+├── skills/
+│   └── <skill-name>/
+│       ├── SKILL.md              # one folder per skill (the only required file)
+│       └── scripts/              # optional bundled helper scripts
+├── tests/                        # optional eval cases, kept out of the shipped skills
+│   └── <skill-name>/             # so `npx skills` installs stay lean
 ├── SKILL_TEMPLATE.md             # copy this to start a new skill
 └── README.md
 ```
 
+The top-level `skills/` directory is the convention both installers below understand.
+Eval/test cases live in `tests/<skill-name>/` rather than inside the skill folders, so
+they aren't copied into users' projects on install.
+
 ## Installing the skills
+
+There are two ways to install, depending on your setup.
+
+### A. `npx skills` — into a single project (any agent)
+
+Uses [Vercel Labs' `skills` CLI](https://github.com/vercel-labs/skills); GitHub is the
+registry, so no npm publish is involved. Run from your project root:
+
+```bash
+npx skills@latest add MGCT/skills            # interactive: pick skills + agent
+npx skills add MGCT/skills --list            # list what's available
+npx skills add MGCT/skills -s handover       # one skill (repeat -s for more)
+npx skills add MGCT/skills -s '*' -y         # all skills, no prompts
+npx skills add MGCT/skills -g                # install globally (~/.claude/skills)
+```
+
+Skills land in `.claude/skills/` (project) or `~/.claude/skills/` (with `-g`), and are
+invoked as `/<skill-name>` (e.g. `/handover`). The whole skill folder is copied, so
+bundled scripts come along.
+
+### B. Claude Code plugin marketplace — install once, use everywhere
 
 From inside Claude Code:
 
 ```
-/plugin marketplace add markthompson/claude-skills      # or the git URL
+/plugin marketplace add MGCT/skills          # or the git URL
 /plugin install toolkit@claude-skills
 ```
 
-Then invoke a skill with `/toolkit:<skill-name>` (e.g. `/toolkit:wrap-up`), or let
-Claude trigger it automatically based on the skill's `description`.
-
-After editing skills locally, pick up changes without restarting:
+Installed this way the skills are invoked as `/toolkit:<skill-name>` (e.g.
+`/toolkit:wrap-up`), or trigger automatically from their `description`. After editing
+skills locally, pick up changes without restarting:
 
 ```
 /plugin reload-plugins
@@ -111,13 +134,41 @@ it proposes first and never commits or pushes without your go-ahead.
 > safety and matching docs to what just changed; spring-clean ignores "this session"
 > and reorganizes the project as a standing artifact.
 
+### `handover` — baton-pass between session windows
+
+A structured way to capture the *live working state* of a session so a fresh window
+can pick it up cold — and to read the last one back to resume. For when you have to
+stop mid-task, run out of context, or switch windows and want to carry on later
+without re-deriving everything you already worked out.
+
+**Trigger it** by typing `/toolkit:handover`, or by saying you want to "create a
+handover", "hand this off", "save where we are before I stop" — or, to resume, "pick
+up where I left off", "continue from yesterday", "what were we doing". It runs in two
+modes:
+
+- **Save** — reconstructs the session from `git` plus the conversation, then writes a
+  cold-reader summary: what you were doing, progress so far, problems hit and how they
+  were resolved, what was implemented, key knowledge/gotchas, current state, and the
+  concrete **next steps** (the first item is the literal next action).
+- **Resume** — finds the latest handover, reconciles it against the current `git`
+  state so a stale snapshot can't mislead, and briefs you to continue from the next step.
+
+Notes live in **temp memory outside the repo** (`~/.claude/handovers/<project>/`),
+kept as timestamped history, so the codebase and git stay clean and handovers can be
+pruned freely once consumed. A bundled script (`scripts/handover.py`) owns all the
+path/file mechanics.
+
+> Distinct from `wrap-up` and permanent memory: wrap-up makes the *repo* safe to leave;
+> permanent memory holds *durable* facts for every future session; a handover is
+> *disposable working state* for resuming one in-flight task.
+
 ## Adding a new skill
 
 1. Copy `SKILL_TEMPLATE.md` into a new folder:
-   `plugins/toolkit/skills/<your-skill-name>/SKILL.md`
+   `skills/<your-skill-name>/SKILL.md`
 2. Fill in the `name`, `description`, and instructions.
 3. Keep any helper scripts or reference files in that same folder.
-4. Commit and push. Bump the `version` in `plugins/toolkit/.claude-plugin/plugin.json`
+4. Commit and push. Bump the `version` in `.claude-plugin/plugin.json`
    when you want to cut a release others pull.
 
 The fastest way to author one is the built-in **skill-creator** skill — run
