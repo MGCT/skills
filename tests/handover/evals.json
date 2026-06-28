@@ -1,0 +1,29 @@
+{
+  "skill_name": "handover",
+  "evals": [
+    {
+      "id": 0,
+      "name": "save-mid-refactor",
+      "prompt": "We've spent this session refactoring the auth module on the refactor-auth branch. I swapped login() from a plaintext password compare to a salted SHA-256 hash, and started a token-based sessions file (session.py) which isn't finished. The big open risk is that existing user rows still have plaintext passwords, so we need a migration before this can ship. I have to stop now and I'll continue tomorrow in a fresh window. Create a handover so I can pick this up cleanly.",
+      "fixture": "auth-refactor",
+      "expected_output": "A handover file written to ~/.claude/handovers/auth-refactor/ summarizing the refactor, the unfinished session.py, the plaintext-migration risk, current git state, and concrete next steps (migration first). Repo itself untouched.",
+      "files": []
+    },
+    {
+      "id": 1,
+      "name": "resume-reconcile",
+      "prompt": "Pick up where I left off on this payments-api work.",
+      "fixture": "payments-api",
+      "expected_output": "Locates the latest handover, reads it, then reconciles against the real repo (git status is CLEAN and the test PASSES, contradicting the handover's claims of a red test and uncommitted changes) and flags that mismatch before continuing. Briefs the user and confirms before diving in.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "save-light",
+      "prompt": "quick one — I just fixed the usage typo in cli.py so it actually greets the name arg. gotta jump on a call, save where we are so i can come back to it",
+      "fixture": "cli-tool",
+      "expected_output": "A short, lean handover (no over-ceremony for a tiny task) capturing the one-line change and the obvious next step, written to the external store, repo untouched.",
+      "files": []
+    }
+  ]
+}

@@ -8,8 +8,8 @@
   "plugins": [
     {
       "name": "toolkit",
-      "source": "./plugins/toolkit",
-      "description": "Reusable skills for everyday project work — session wrap-up, and more to come.",
+      "source": ".",
+      "description": "Reusable skills for everyday project work — wrap-up, spring-clean, and handover.",
       "category": "productivity",
       "keywords": ["workflow", "productivity", "housekeeping", "documentation"]
     }
