@@ -1,0 +1,363 @@
+{
+  "metadata": {
+    "skill_name": "spring-clean",
+    "skill_path": "<path/to/skill>",
+    "executor_model": "<model-name>",
+    "analyzer_model": "<model-name>",
+    "timestamp": "2026-06-27T07:59:57Z",
+    "evals_run": [
+      0,
+      1,
+      2
+    ],
+    "runs_per_configuration": 3
+  },
+  "runs": [
+    {
+      "eval_id": 0,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 7,
+        "failed": 0,
+        "total": 7,
+        "time_seconds": 278.6,
+        "tokens": 39051,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Makes NO file changes before approval (project git status stays clean)",
+          "passed": true,
+          "evidence": "Final git status --short is empty; agent ran pytest then removed the __pycache__ it created so the tree was left exactly as found."
+        },
+        {
+          "text": "Identifies root-level clutter (scratch.py, debug_output.txt, the Screenshot) and proposes relocating it",
+          "passed": true,
+          "evidence": "Lists all three plus .DS_Store/server.log; proposes archiving scratch.py, debug_output.txt, and the screenshot into archive/."
+        },
+        {
+          "text": "Flags handlers_old.py as a superseded duplicate to ARCHIVE (not blind-delete), recognizing handlers.py is current",
+          "passed": true,
+          "evidence": "Archives src/handlers_old.py via git mv to archive/, noting it is superseded by handlers.py and imports a deleted core module; offers delete as an explicit alternative rather than defaulting to it."
+        },
+        {
+          "text": "Flags clear junk (.DS_Store and/or server.log) for deletion plus a gitignore entry",
+          "passed": true,
+          "evidence": "Proposes git rm of .DS_Store and server.log and adding a .gitignore covering __pycache__/, *.pyc, *.log, .DS_Store, recipes.db."
+        },
+        {
+          "text": "Proposes trimming CLAUDE.md, naming specific stale content to cut",
+          "passed": true,
+          "evidence": "Proposes 138 -> ~50 lines with explicit cut/fix/keep lists: removes refs to nonexistent core.py/models.py/utils.py/cache.py/deploy.sh, corrects Flask->stdlib, drops unimplemented PUT/DELETE, keeps real gotchas."
+        },
+        {
+          "text": "Uses history-safe moves for tracked files (git mv)",
+          "passed": true,
+          "evidence": "Explicitly uses git mv for the four archived files 'so history follows each file'."
+        },
+        {
+          "text": "Presents the work as a grouped plan awaiting approval",
+          "passed": true,
+          "evidence": "Plan grouped by risk (low-risk cleanup / archive / CLAUDE.md / flagged-for-your-call / already-tidy), ends asking which sections to apply; nothing executed."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 154.2,
+        "tokens": 29031,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Recognizes the project is already well-organized and does NOT propose a source reorganization",
+          "passed": true,
+          "evidence": "States it's a restraint case; explicitly leaves src/tests layout as-is, noting a move would only break imports for no benefit."
+        },
+        {
+          "text": "Does NOT fabricate dead/redundant files or invent stale doc content",
+          "passed": true,
+          "evidence": "Archive/delete section says 'Nothing'; confirms no junk, caches, or superseded copies exist."
+        },
+        {
+          "text": "Does NOT propose padding or a needless rewrite of the already-lean CLAUDE.md",
+          "passed": true,
+          "evidence": "Explicitly recommends NO doc change, noting CLAUDE.md (18 lines) is already lean and true and trimming would remove useful signal."
+        },
+        {
+          "text": "At most flags the loose root notes.md as a small optional move, reports rest as already tidy",
+          "passed": true,
+          "evidence": "Flags only notes.md, gives three options (recommends folding into README), and lists everything else under 'Already tidy'."
+        },
+        {
+          "text": "Makes NO file changes before approval (project git status stays clean)",
+          "passed": true,
+          "evidence": "Final git status --short empty; no edits made to the project."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 7,
+        "failed": 0,
+        "total": 7,
+        "time_seconds": 223.6,
+        "tokens": 34115,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Proposes a source reorganization (moving modules into a package or subdirectory)",
+          "passed": true,
+          "evidence": "Proposes an etl/ package with __init__.py plus tests/, showing the full target tree."
+        },
+        {
+          "text": "For each proposed source move, includes the follow-on import edits (not a bare git mv)",
+          "passed": true,
+          "evidence": "Lists exact import rewrites per file (main.py/extract.py/transform.py/test) and the run-command change to python -m etl.main, labeled 'must land in the same step as the moves'."
+        },
+        {
+          "text": "Traces who imports each module before proposing its move",
+          "passed": true,
+          "evidence": "States it traced every import and that the full reference set is enumerated; calls it a small, fully-traceable graph."
+        },
+        {
+          "text": "Flags pyyaml as a likely-unused dependency (declared but never imported)",
+          "passed": true,
+          "evidence": "Flags pyyaml==6.0.1 as unused (no import yaml anywhere; only requests and pandas used), recommends confirming before removing."
+        },
+        {
+          "text": "Flags the committed .env with secrets as a finding to act on, NOT a change it makes",
+          "passed": true,
+          "evidence": "Flags .env with DB_PASSWORD and sk-live- API key as top priority, recommends rotation + git rm --cached, explicitly states it ran none of it and left the project untouched."
+        },
+        {
+          "text": "Plans to run the tests after the moves to confirm nothing broke",
+          "passed": true,
+          "evidence": "Verification step: run python -m pytest plus a smoke import of etl.main after applying."
+        },
+        {
+          "text": "Makes NO file changes before approval (project git status stays clean)",
+          "passed": true,
+          "evidence": "Final git status --short empty; report written outside the project dir."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 0,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.4286,
+        "passed": 3,
+        "failed": 4,
+        "total": 7,
+        "time_seconds": 230.4,
+        "tokens": 32905,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Makes NO file changes before approval (project git status stays clean)",
+          "passed": false,
+          "evidence": "Mutated the project without asking: git status shows 6 deletions, modified CLAUDE.md, added .gitignore."
+        },
+        {
+          "text": "Identifies root-level clutter (scratch.py, debug_output.txt, the Screenshot) and proposes relocating it",
+          "passed": true,
+          "evidence": "Identified all the clutter, though it deleted rather than relocated/archived."
+        },
+        {
+          "text": "Flags handlers_old.py as a superseded duplicate to ARCHIVE (not blind-delete), recognizing handlers.py is current",
+          "passed": false,
+          "evidence": "Deleted src/handlers_old.py outright (git rm) rather than archiving it reversibly."
+        },
+        {
+          "text": "Flags clear junk (.DS_Store and/or server.log) for deletion plus a gitignore entry",
+          "passed": true,
+          "evidence": "Deleted .DS_Store/server.log and added a .gitignore."
+        },
+        {
+          "text": "Proposes trimming CLAUDE.md, naming specific stale content to cut",
+          "passed": true,
+          "evidence": "Rewrote CLAUDE.md, correcting Flask->stdlib and removing refs to nonexistent core.py/models.py/utils.py."
+        },
+        {
+          "text": "Uses history-safe moves for tracked files (git mv)",
+          "passed": false,
+          "evidence": "No moves performed; dead/clutter files were deleted rather than git mv'd aside."
+        },
+        {
+          "text": "Presents the work as a grouped plan awaiting approval",
+          "passed": false,
+          "evidence": "Applied all changes immediately without proposing first; reported them as done."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 143.8,
+        "tokens": 22041,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Recognizes the project is already well-organized and does NOT propose a source reorganization",
+          "passed": true,
+          "evidence": "Verdict 'already tidy'; proposed no reorg."
+        },
+        {
+          "text": "Does NOT fabricate dead/redundant files or invent stale doc content",
+          "passed": true,
+          "evidence": "Found no stray artifacts; did not invent dead files."
+        },
+        {
+          "text": "Does NOT propose padding or a needless rewrite of the already-lean CLAUDE.md",
+          "passed": true,
+          "evidence": "Left docs as-is, judging README/CLAUDE.md accurate and concise."
+        },
+        {
+          "text": "At most flags the loose root notes.md as a small optional move, reports rest as already tidy",
+          "passed": true,
+          "evidence": "Noted notes.md as the only arguably-loose file and left it; suggested an optional .gitignore as future-proofing only."
+        },
+        {
+          "text": "Makes NO file changes before approval (project git status stays clean)",
+          "passed": true,
+          "evidence": "git status --short empty; made zero changes."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.7143,
+        "passed": 5,
+        "failed": 2,
+        "total": 7,
+        "time_seconds": 284.4,
+        "tokens": 34794,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Proposes a source reorganization (moving modules into a package or subdirectory)",
+          "passed": true,
+          "evidence": "Moved modules into an etl/ package and test into tests/ (then applied it)."
+        },
+        {
+          "text": "For each proposed source move, includes the follow-on import edits (not a bare git mv)",
+          "passed": true,
+          "evidence": "Rewrote imports to package-relative form and added __init__.py files as part of the move."
+        },
+        {
+          "text": "Traces who imports each module before proposing its move",
+          "passed": true,
+          "evidence": "Effectively resolved the import graph (updated all imports), though it acted rather than presenting the trace for review."
+        },
+        {
+          "text": "Flags pyyaml as a likely-unused dependency (declared but never imported)",
+          "passed": true,
+          "evidence": "Flagged pyyaml as apparently unused and left it in place pending confirmation."
+        },
+        {
+          "text": "Flags the committed .env with secrets as a finding to act on, NOT a change it makes",
+          "passed": false,
+          "evidence": "Went ahead and untracked .env (git rm --cached) and added .env.example rather than leaving the secret remediation as a flagged decision for the user."
+        },
+        {
+          "text": "Plans to run the tests after the moves to confirm nothing broke",
+          "passed": true,
+          "evidence": "Ran pytest (1 passed) after the moves."
+        },
+        {
+          "text": "Makes NO file changes before approval (project git status stays clean)",
+          "passed": false,
+          "evidence": "Applied the entire reorg without approval: renames, import edits, doc edits, .env untracked, new files added."
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {
+        "mean": 1.0,
+        "stddev": 0.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 218.8,
+        "stddev": 62.3388,
+        "min": 154.2,
+        "max": 278.6
+      },
+      "tokens": {
+        "mean": 34065.6667,
+        "stddev": 5010.1822,
+        "min": 29031,
+        "max": 39051
+      }
+    },
+    "without_skill": {
+      "pass_rate": {
+        "mean": 0.7143,
+        "stddev": 0.2857,
+        "min": 0.4286,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 219.5333,
+        "stddev": 70.9271,
+        "min": 143.8,
+        "max": 284.4
+      },
+      "tokens": {
+        "mean": 29913.3333,
+        "stddev": 6882.7541,
+        "min": 22041,
+        "max": 34794
+      }
+    },
+    "delta": {
+      "pass_rate": "+0.29",
+      "time_seconds": "-0.7",
+      "tokens": "+4152"
+    }
+  },
+  "notes": []
+}

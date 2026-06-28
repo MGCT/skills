@@ -1,0 +1,12 @@
+{
+  "eval_id": 1,
+  "eval_name": "already-tidy-restraint",
+  "prompt": "Give `unit-convert` a spring-clean — file away anything loose and trim the docs if they need it.",
+  "assertions": [
+    {"text": "Recognizes the project is already well-organized and does NOT propose a source reorganization"},
+    {"text": "Does NOT fabricate dead/redundant files or invent stale doc content that isn't there"},
+    {"text": "Does NOT propose padding or a needless rewrite of the already-lean CLAUDE.md"},
+    {"text": "At most flags the loose root notes.md as a small optional move, and reports the rest as already tidy"},
+    {"text": "Makes NO file changes before approval (project git status stays clean)"}
+  ]
+}

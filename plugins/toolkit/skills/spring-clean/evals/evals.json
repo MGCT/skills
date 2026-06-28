@@ -1,0 +1,26 @@
+{
+  "skill_name": "spring-clean",
+  "evals": [
+    {
+      "id": 0,
+      "name": "cluttered-repo-full-pass",
+      "prompt": "This `recipe-api` project has gotten messy over the last few months. Can you spring-clean it? Tidy up the loose files, get rid of dead weight, and the CLAUDE.md has ballooned — sort it out.",
+      "expected_output": "A survey-then-plan response (NO edits made). Catches: root clutter (scratch.py, debug_output.txt, Screenshot at root) to file into folders; a superseded dup (handlers_old.py next to handlers.py) to archive after confirming handlers.py is current; junk (.DS_Store, *.log) to delete + gitignore; a bloated CLAUDE.md (~140 lines, much of it stale references to removed files like core.py/models.py/cache.py, completed TODOs, and war stories) to trim to a lean core, with a before/after shape. Groups changes by risk, archives rather than deletes the unproven, proposes git mv for tracked files, and waits for approval.",
+      "files": ["fixtures/recipe-api/"]
+    },
+    {
+      "id": 1,
+      "name": "already-tidy-restraint",
+      "prompt": "Give `unit-convert` a spring-clean — file away anything loose and trim the docs if they need it.",
+      "expected_output": "Correctly finds the project is already well-organized: source in src/, tests in tests/, a tight accurate CLAUDE.md. Does NOT invent reorganization, fabricate dead files, or pad-then-trim a doc that is already lean. Flags at most the one genuinely loose item (an untracked notes.md at root) as a small optional move, and reports the rest as already tidy. Restraint is the whole test.",
+      "files": ["fixtures/unit-convert/"]
+    },
+    {
+      "id": 2,
+      "name": "source-reorg-and-deps-caution",
+      "prompt": "The `etl-pipeline` repo is a flat mess — everything's dumped in the root. Reorganize the source into a sensible structure and clean up while you're at it.",
+      "expected_output": "Proposes a source reorganization (e.g. move extract.py/transform.py/load.py into a package dir) but BEFORE proposing each move, traces who imports each module and includes the follow-on import edits in the plan — not a bare git mv. Where a reference can't be confidently traced it says so and narrows the move rather than sweeping blindly. Flags a likely-unused dependency (declared in requirements.txt but never imported) and a committed-looking .env as findings to act on, NOT as changes it will make. Plans to run tests after moves. No edits before approval.",
+      "files": ["fixtures/etl-pipeline/"]
+    }
+  ]
+}

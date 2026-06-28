@@ -1,0 +1,14 @@
+D  .env
+ M CLAUDE.md
+ M README.md
+R  config.py -> etl/config.py
+RM extract.py -> etl/extract.py
+R  helpers.py -> etl/helpers.py
+R  load.py -> etl/load.py
+RM main.py -> etl/main.py
+RM transform.py -> etl/transform.py
+RM test_pipeline.py -> tests/test_pipeline.py
+?? .env.example
+?? .gitignore
+?? etl/__init__.py
+?? tests/__init__.py

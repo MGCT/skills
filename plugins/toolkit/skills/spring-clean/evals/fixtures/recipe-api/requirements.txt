@@ -1,0 +1,1 @@
+# recipe-api uses only the stdlib for the server; no third-party deps right now.

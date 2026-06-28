@@ -1,0 +1,45 @@
+{
+  "expectations": [
+    {
+      "text": "Makes NO file changes before approval (project git status stays clean)",
+      "passed": false,
+      "evidence": "Mutated the project without asking: git status shows 6 deletions, modified CLAUDE.md, added .gitignore."
+    },
+    {
+      "text": "Identifies root-level clutter (scratch.py, debug_output.txt, the Screenshot) and proposes relocating it",
+      "passed": true,
+      "evidence": "Identified all the clutter, though it deleted rather than relocated/archived."
+    },
+    {
+      "text": "Flags handlers_old.py as a superseded duplicate to ARCHIVE (not blind-delete), recognizing handlers.py is current",
+      "passed": false,
+      "evidence": "Deleted src/handlers_old.py outright (git rm) rather than archiving it reversibly."
+    },
+    {
+      "text": "Flags clear junk (.DS_Store and/or server.log) for deletion plus a gitignore entry",
+      "passed": true,
+      "evidence": "Deleted .DS_Store/server.log and added a .gitignore."
+    },
+    {
+      "text": "Proposes trimming CLAUDE.md, naming specific stale content to cut",
+      "passed": true,
+      "evidence": "Rewrote CLAUDE.md, correcting Flask->stdlib and removing refs to nonexistent core.py/models.py/utils.py."
+    },
+    {
+      "text": "Uses history-safe moves for tracked files (git mv)",
+      "passed": false,
+      "evidence": "No moves performed; dead/clutter files were deleted rather than git mv'd aside."
+    },
+    {
+      "text": "Presents the work as a grouped plan awaiting approval",
+      "passed": false,
+      "evidence": "Applied all changes immediately without proposing first; reported them as done."
+    }
+  ],
+  "summary": {
+    "pass_rate": 0.4286,
+    "passed": 3,
+    "failed": 4,
+    "total": 7
+  }
+}

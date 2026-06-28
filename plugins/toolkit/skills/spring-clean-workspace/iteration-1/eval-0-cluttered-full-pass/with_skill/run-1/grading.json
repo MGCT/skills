@@ -1,0 +1,45 @@
+{
+  "expectations": [
+    {
+      "text": "Makes NO file changes before approval (project git status stays clean)",
+      "passed": true,
+      "evidence": "Final git status --short is empty; agent ran pytest then removed the __pycache__ it created so the tree was left exactly as found."
+    },
+    {
+      "text": "Identifies root-level clutter (scratch.py, debug_output.txt, the Screenshot) and proposes relocating it",
+      "passed": true,
+      "evidence": "Lists all three plus .DS_Store/server.log; proposes archiving scratch.py, debug_output.txt, and the screenshot into archive/."
+    },
+    {
+      "text": "Flags handlers_old.py as a superseded duplicate to ARCHIVE (not blind-delete), recognizing handlers.py is current",
+      "passed": true,
+      "evidence": "Archives src/handlers_old.py via git mv to archive/, noting it is superseded by handlers.py and imports a deleted core module; offers delete as an explicit alternative rather than defaulting to it."
+    },
+    {
+      "text": "Flags clear junk (.DS_Store and/or server.log) for deletion plus a gitignore entry",
+      "passed": true,
+      "evidence": "Proposes git rm of .DS_Store and server.log and adding a .gitignore covering __pycache__/, *.pyc, *.log, .DS_Store, recipes.db."
+    },
+    {
+      "text": "Proposes trimming CLAUDE.md, naming specific stale content to cut",
+      "passed": true,
+      "evidence": "Proposes 138 -> ~50 lines with explicit cut/fix/keep lists: removes refs to nonexistent core.py/models.py/utils.py/cache.py/deploy.sh, corrects Flask->stdlib, drops unimplemented PUT/DELETE, keeps real gotchas."
+    },
+    {
+      "text": "Uses history-safe moves for tracked files (git mv)",
+      "passed": true,
+      "evidence": "Explicitly uses git mv for the four archived files 'so history follows each file'."
+    },
+    {
+      "text": "Presents the work as a grouped plan awaiting approval",
+      "passed": true,
+      "evidence": "Plan grouped by risk (low-risk cleanup / archive / CLAUDE.md / flagged-for-your-call / already-tidy), ends asking which sections to apply; nothing executed."
+    }
+  ],
+  "summary": {
+    "pass_rate": 1.0,
+    "passed": 7,
+    "failed": 0,
+    "total": 7
+  }
+}

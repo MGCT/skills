@@ -1,0 +1,35 @@
+{
+  "expectations": [
+    {
+      "text": "Recognizes the project is already well-organized and does NOT propose a source reorganization",
+      "passed": true,
+      "evidence": "Verdict 'already tidy'; proposed no reorg."
+    },
+    {
+      "text": "Does NOT fabricate dead/redundant files or invent stale doc content",
+      "passed": true,
+      "evidence": "Found no stray artifacts; did not invent dead files."
+    },
+    {
+      "text": "Does NOT propose padding or a needless rewrite of the already-lean CLAUDE.md",
+      "passed": true,
+      "evidence": "Left docs as-is, judging README/CLAUDE.md accurate and concise."
+    },
+    {
+      "text": "At most flags the loose root notes.md as a small optional move, reports rest as already tidy",
+      "passed": true,
+      "evidence": "Noted notes.md as the only arguably-loose file and left it; suggested an optional .gitignore as future-proofing only."
+    },
+    {
+      "text": "Makes NO file changes before approval (project git status stays clean)",
+      "passed": true,
+      "evidence": "git status --short empty; made zero changes."
+    }
+  ],
+  "summary": {
+    "pass_rate": 1.0,
+    "passed": 5,
+    "failed": 0,
+    "total": 5
+  }
+}

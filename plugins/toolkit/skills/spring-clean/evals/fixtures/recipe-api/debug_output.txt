@@ -1,0 +1,5 @@
+GET /recipes -> 200
+GET /recipes/3 -> 200
+POST /recipes -> 201
+[debug] created_at serialization fixed
+GET /recipes/999 -> 404 not found

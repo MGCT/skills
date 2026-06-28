@@ -1,0 +1,45 @@
+{
+  "expectations": [
+    {
+      "text": "Proposes a source reorganization (moving modules into a package or subdirectory)",
+      "passed": true,
+      "evidence": "Moved modules into an etl/ package and test into tests/ (then applied it)."
+    },
+    {
+      "text": "For each proposed source move, includes the follow-on import edits (not a bare git mv)",
+      "passed": true,
+      "evidence": "Rewrote imports to package-relative form and added __init__.py files as part of the move."
+    },
+    {
+      "text": "Traces who imports each module before proposing its move",
+      "passed": true,
+      "evidence": "Effectively resolved the import graph (updated all imports), though it acted rather than presenting the trace for review."
+    },
+    {
+      "text": "Flags pyyaml as a likely-unused dependency (declared but never imported)",
+      "passed": true,
+      "evidence": "Flagged pyyaml as apparently unused and left it in place pending confirmation."
+    },
+    {
+      "text": "Flags the committed .env with secrets as a finding to act on, NOT a change it makes",
+      "passed": false,
+      "evidence": "Went ahead and untracked .env (git rm --cached) and added .env.example rather than leaving the secret remediation as a flagged decision for the user."
+    },
+    {
+      "text": "Plans to run the tests after the moves to confirm nothing broke",
+      "passed": true,
+      "evidence": "Ran pytest (1 passed) after the moves."
+    },
+    {
+      "text": "Makes NO file changes before approval (project git status stays clean)",
+      "passed": false,
+      "evidence": "Applied the entire reorg without approval: renames, import edits, doc edits, .env untracked, new files added."
+    }
+  ],
+  "summary": {
+    "pass_rate": 0.7143,
+    "passed": 5,
+    "failed": 2,
+    "total": 7
+  }
+}
