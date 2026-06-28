@@ -1,7 +1,7 @@
 ---
 name: handover
 description: Capture the working state of the current session as a structured baton-pass so a fresh session window can pick the work up cold — and read the last one back to resume. Use this whenever the user types /handover, or asks to "create/write a handover", "hand this off", "save where we are", "capture the session before I stop", "I need to switch windows / run out of context", "make a note so I can carry on later" — or, on the resume side, "pick up where I left off", "resume the last session", "continue from yesterday", "load the handover", "what were we doing". Writes a session summary — the workflow, problems hit and how they were fixed, what was implemented, key knowledge/gotchas, current state, and the next concrete actions — to temp memory outside the repo (~/.claude/handovers/<project>/) so it persists across session windows without cluttering the project or git. Distinct from /wrap-up (repo-facing end-of-session tidy) and from permanent memory (durable facts): a handover is disposable working state for resuming this thread of work.
-argument-hint: "[resume | new]"
+argument-hint: "[resume | new | what the next session will focus on]"
 ---
 
 # Handover
@@ -83,6 +83,19 @@ files, lines, commands, error messages. Omit a section if it genuinely has nothi
 pad. The next-steps section is the most valuable part, so make the first item the literal
 next action, specific enough to start on without re-thinking.
 
+A few habits keep a handover lean and safe to leave lying around:
+
+- **Reference, don't restate.** If something is already captured in a durable artifact — a
+  PRD, plan, ADR, issue, PR, commit, or diff — link it by path or URL instead of copying
+  it in. Re-summarized content goes stale the moment the artifact moves on; a pointer
+  stays true.
+- **Redact secrets.** A handover is plaintext on disk and may be read or shared later, so
+  never write API keys, tokens, passwords, connection strings, or personal data into it.
+  Point at "the Stripe key in `.env`" rather than the value itself.
+- **Tailor to the next session's focus.** If the user said what the next window is for
+  (the argument, or just in conversation), lead with that thread and trim the rest — a
+  handover aimed at "just finish the migration" shouldn't spend space on unrelated asides.
+
 ```markdown
 # Handover — <project> — <YYYY-MM-DD HH:MM>
 
@@ -114,6 +127,10 @@ next action, specific enough to start on without re-thinking.
 
 ## How to resume
 - <commands to run / tests to check, files to open first, env/server notes>
+
+## Suggested skills / tooling
+- <which skills or commands the next session should reach for first — e.g. run /verify to
+  confirm the fix holds, /tdd for the next feature, re-run `pytest tests/auth`>
 ```
 
 ### 3. Confirm
@@ -178,3 +195,6 @@ delete without a nod.
 - **Match the work's weight.** A five-minute task needs a three-line handover; a deep
   multi-day refactor earns the full structure. Don't impose ceremony a quick stop doesn't
   warrant.
+- **Lean and safe to share.** Point at artifacts — PRDs, issues, PRs, commits — instead of
+  copying them, and never write secrets or personal data into a handover. It's a plaintext
+  file that outlives the session, so treat it like one.
