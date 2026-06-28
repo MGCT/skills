@@ -1,8 +1,0 @@
-D  .DS_Store
- M CLAUDE.md
-D  "Screenshot 2025-01-03 at 11.04.png.txt"
-D  debug_output.txt
-D  scratch.py
-D  server.log
-D  src/handlers_old.py
-?? .gitignore

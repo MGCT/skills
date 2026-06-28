@@ -72,6 +72,45 @@ It then presents one scannable report — *What got done / Still open / Proposed
 updates / Nothing-needed* — and **proposes** the fixes. It never edits files on its
 own, and committing or pushing always require your explicit go-ahead.
 
+### `spring-clean` — deliberate tidy-up of a cluttered project
+
+A deeper, deliberate spring-cleaning of how a project is physically organized — for
+when scratch files have piled up at the root, `utils_old.py` sits next to `utils.py`,
+three folders each hold "the" config, and the `CLAUDE.md` that was tight at 40 lines
+is now 300 lines of half-true history.
+
+**Trigger it** by typing `/toolkit:spring-clean`, or by asking to tidy up / clean up
+/ declutter / reorganize / "sort out" a project, file loose files into folders,
+archive dead files, restructure a messy repo, or trim a bloated `CLAUDE.md`/`README`.
+It runs a strict **survey → plan → approve → apply** workflow and changes nothing
+until you sign off:
+
+- **Survey** — a bundled scanner (`scripts/survey.py`) does the deterministic legwork
+  (root clutter, junk, doc bloat, files stale by mtime, top-level layout; git-aware,
+  pure stdlib), then Claude reads the flagged files with judgment the script can't apply.
+- **File organization** — finds loose scratch files, logs, one-off scripts, exports,
+  and assets that drifted to the wrong place, and proposes a home for each, tidying
+  *toward the project's existing grain* rather than imposing a generic structure.
+- **Redundant & dead files** — superseded copies, backups, spent one-shot scripts, and
+  junk; it **archives by default and deletes only the obvious**, working out which of
+  two look-alike files is current before retiring the other.
+- **Source moves (higher risk)** — only when the layout is genuinely messy, and only
+  after tracing every reference (imports, config, build, CI) so the follow-on edits
+  ship in the same step and nothing breaks.
+- **Docs — trim and refresh** — makes `CLAUDE.md`/`README` *lean and true*: cuts
+  rederivable content, fixes stale paths/commands/versions, and splits rarely-needed
+  detail into linked reference files, shown as a before/after shape.
+- **Dependencies & config** — *flags* likely-unused deps, duplicate lockfiles, and
+  stray `.env`-style files for you to act on, rather than removing them itself.
+
+Moves use `git mv` so history follows the file; if the project has tests/lint/build it
+runs them after applying to prove the reorg didn't break anything. As with `wrap-up`,
+it proposes first and never commits or pushes without your go-ahead.
+
+> Distinct from `wrap-up`: wrap-up is a light end-of-session pass focused on git
+> safety and matching docs to what just changed; spring-clean ignores "this session"
+> and reorganizes the project as a standing artifact.
+
 ## Adding a new skill
 
 1. Copy `SKILL_TEMPLATE.md` into a new folder:
