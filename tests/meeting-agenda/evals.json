@@ -1,0 +1,29 @@
+{
+  "skill_name": "meeting-agenda",
+  "evals": [
+    {
+      "id": 0,
+      "name": "grounded-from-project",
+      "prompt": "We've got a 60-minute video call with the Acme client on Thursday — it's the mid-project review. Can you put together an agenda I can send them? It'll be me, our strategist, and their two marketing leads.",
+      "expected_output": "Reads the project to populate REAL agenda items (open decisions, milestones since last touchpoint, risks needing client input) rather than a generic template. Has the essentials it needs (purpose=mid-project review, 60min, video, attendees) so does NOT re-ask them. Produces a timed running order summing to <=60min with slack, each item tagged Decision/Discussion/Update/Info with an owner, opens on objective and closes on next steps + AOB. States the assumptions made and any gaps. Includes a short covering note. Does not send anything.",
+      "fixture": "acme-rebrand",
+      "files": []
+    },
+    {
+      "id": 1,
+      "name": "asks-for-missing-essentials",
+      "prompt": "I need a meeting agenda for the client.",
+      "expected_output": "Recognizes the essentials are missing and asks a SHORT single batch for purpose, attendees, date/length, and format — rather than inventing them. May offer to draft a provisional agenda from the project with flagged assumptions, but does not fabricate attendees, a date, or a specific purpose out of nothing.",
+      "fixture": "acme-rebrand",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "decision-led-kickoff",
+      "prompt": "Draft a 90-minute in-person kickoff agenda for the new engagement with Northwind — their CMO and head of insight will be there, plus our team of three. The big thing we need out of it is sign-off on scope and the research approach.",
+      "expected_output": "Builds a decision-led agenda where scope sign-off and research-approach approval are front-loaded as [Decision] items with real time allocated, grounded in the project's brief/approach. Budgets 90 minutes with slack, assigns owners, closes on next steps/actions. Tone is client-appropriate (no internal shorthand). Flags any assumptions and gaps; proposes rather than sends.",
+      "fixture": "northwind-kickoff",
+      "files": []
+    }
+  ]
+}

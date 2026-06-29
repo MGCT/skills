@@ -162,6 +162,55 @@ path/file mechanics.
 > permanent memory holds *durable* facts for every future session; a handover is
 > *disposable working state* for resuming one in-flight task.
 
+### `meeting-agenda` — client-ready agenda for an upcoming meeting
+
+Turns what the project already knows — plus the few facts only you can supply — into a
+tidy, decision-led agenda you can send. Instead of a generic "intro / update / AOB"
+template, it reads the project for the *real* open decisions, risks, and milestones and
+builds the running order from those.
+
+**Trigger it** by typing `/toolkit:meeting-agenda`, or by saying you've got a meeting
+coming up — "draft an agenda", "what should we cover with the client", "agenda for
+Thursday's call", "prep for the kickoff". It asks for the few essentials it can't infer
+(purpose, attendees, length, format) in one short batch, mines the project for topics
+that need *this* audience, then builds a timed running order — each item tagged
+**[Decision] / [Discussion] / [Update] / [Info]** with an owner and a minute budget that
+fits the slot — opening on the objective and closing on next steps. It outputs the agenda
+plus a short covering note, surfaces the assumptions it made and any gaps, and leaves the
+sending to you.
+
+> Distinct from `workshop` (internal idea stress-testing, not a client deliverable) and
+> `handover` (resuming your own work, not running a meeting).
+
+### `contradictions` — find where the work disagrees with itself, or with the world
+
+A deliberate integrity pass over a body of work. It catches the conflicts a linear read
+misses — a figure in the brief that stops matching the deck, a launch date given two ways,
+a recommendation that quietly reverses an earlier finding — and, in verify mode, claims
+that are simply *wrong*: an unchecked statistic or market size now load-bearing in a
+client deliverable.
+
+**Trigger it** by typing `/toolkit:contradictions`, or by asking to "check for
+contradictions / inconsistencies", "does anything here conflict", "sanity-check the
+numbers", "fact-check this", "verify these claims". It runs in two modes:
+
+- **Internal** (default) — a semantic scan for self-contradiction: figures that don't
+  reconcile, dates or statuses that disagree across docs, reversed positions, terms
+  defined two ways. It clusters claims by subject and rules out apparent gaps that scope
+  or timing explains, so it doesn't cry wolf.
+- **External / verify** — extracts the project's checkable claims and web-searches them,
+  returning a verdict per claim (Supported / Contradicted / Unsupported / Outdated) with
+  the source and date.
+
+A bundled scanner (`scripts/extract_claims.py`) finds the candidate claims with `file:line`
+provenance so nothing is missed on a large project. It reports findings ranked by
+severity, with the conflicting passages cited side by side and a proposed resolution — and
+never edits the project's claims on its own judgement.
+
+> Distinct from `wrap-up` (a light end-of-session check that docs match the code that just
+> changed) and `desk-research` (which gathers *new* supporting evidence rather than
+> auditing the claims already made).
+
 ## Adding a new skill
 
 1. Copy `SKILL_TEMPLATE.md` into a new folder:

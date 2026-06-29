@@ -1,0 +1,29 @@
+{
+  "skill_name": "contradictions",
+  "evals": [
+    {
+      "id": 0,
+      "name": "internal-self-contradiction",
+      "prompt": "Before this goes to the client, can you check the Acme docs for contradictions? Make sure nothing in here disagrees with itself.",
+      "expected_output": "Runs an internal pass and surfaces the planted conflicts, clustered by subject and ranked by severity with file:line evidence for BOTH sides: revenue £4m (brief.md, deck-notes.md) vs £6m (findings.md); launch Q3 2026 (brief) vs Q4 2026 (deck); survey n=1,000 (brief) vs n=1,200 (findings); segmentation 'complete and approved' (brief) vs 'still being finalised' (deck); and — flagged HIGH — the reversed recommendation: premium/low-frequency for older affluent households (brief, deck) vs mid-priced/high-frequency for younger professionals (findings). Proposes a resolution or marks 'needs your call' for each. Does NOT edit any file. Reports a severity tally and honest coverage.",
+      "fixture": "acme-insight",
+      "files": ["fixtures/acme-insight/"]
+    },
+    {
+      "id": 1,
+      "name": "verify-external-claims",
+      "prompt": "Fact-check the factual claims in these Acme docs — I don't want anything that isn't true going in the deck.",
+      "expected_output": "Runs verify mode: triages externally-checkable claims (the 'most consumed beverage in the world' / 'second most consumed after water' coffee claims, the £1.2bn UK market size) apart from internal/subjective ones (Acme's own recommendation and plans, which it correctly does NOT fact-check). Web-searches and gives a verdict per checkable claim with a source and date: the claim that coffee is 'the most consumed beverage in the world' (findings.md) is Contradicted (water, and tea among hot drinks, rank above coffee), and notes the two docs even contradict each other on this. Honest about anything it couldn't verify. Proposes corrections; does not edit.",
+      "fixture": "acme-insight",
+      "files": ["fixtures/acme-insight/"]
+    },
+    {
+      "id": 2,
+      "name": "restraint-no-false-positives",
+      "prompt": "Sanity-check the market sizing across these Acme docs for me.",
+      "expected_output": "Checks the UK home-coffee market figure and correctly finds £1.2bn is stated CONSISTENTLY across brief.md, findings.md and deck-notes.md — so it reports no contradiction there rather than inventing one. Restraint is the test: it does not manufacture a conflict from figures that actually agree, and it doesn't pad the report. May note in passing that the figure is unsourced (a candidate for verify mode) without flagging it as a contradiction.",
+      "fixture": "acme-insight",
+      "files": ["fixtures/acme-insight/"]
+    }
+  ]
+}
