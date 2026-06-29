@@ -248,9 +248,51 @@ rather than inventing a date or commitment. It organises the result into horizon
 Next / Later, or quarters) and workstream swimlanes with honest status, shows the
 dependencies and what's been parked, and surfaces every assumption for you to correct.
 
-> Outputs polished markdown today; a **designed PDF export follows once the document
-> toolchain is in place** (Phase 0). Distinct from `timeline` (the date-precise schedule —
-> when each thing happens, with dependencies, as Excel + a visual), which it composes with.
+> Outputs a polished markdown roadmap and a **designed, client-ready PDF** (authored as
+> HTML with a shared house style, rendered via a bundled headless-browser script — no
+> install). Distinct from `timeline` (the date-precise schedule — when each thing happens,
+> with dependencies, as Excel + a visual), which it composes with.
+
+### `timeline` — date-precise schedule as Excel + a PDF visual
+
+The operational counterpart to a roadmap: *when does each thing happen, in what order, and
+what is it waiting on?* — the artifact you track delivery against. It reads the project's
+milestones and dates and produces a styled Excel schedule with a month-by-month Gantt, plus
+a designed PDF one-pager.
+
+**Trigger it** by typing `/toolkit:timeline`, or by asking to "build a timeline", "lay out
+the schedule", "put the milestones on a Gantt", "when does each phase land", "a delivery
+schedule I can track against". It's built around one discipline: **it never draws a Gantt
+bar on a guessed date.** Stated dates are scheduled; dates merely inferred from a dependency
+are scheduled but flagged as assumptions; anything undecided is shown in an explicit
+**Unscheduled / TBC** block rather than invented — because a bar reads as a commitment. A
+bundled `build_xlsx.py` renders the Excel (status-coloured Gantt, TBC block, legend, frozen
+panes); the PDF visual uses the same shared house style.
+
+> Distinct from `roadmap-doc` (the higher-altitude strategic view — direction and
+> priorities by horizon, deliberately coarse on dates). Same source material, different
+> question; they pair well.
+
+### `desk-research` — external evidence for a project's thesis, as a deliverable
+
+Finds the stats, studies, and precedents that stand behind what a project is already
+saying, and writes them up as a cited, client-ready report. It's a **specialisation of the
+`deep-research` skill**, not a replacement: it grounds the questions in the project's
+thesis, frames the goal as *supporting (or testing)* that thesis, and packages the result
+as a designed deliverable with an evidence table.
+
+**Trigger it** by typing `/toolkit:desk-research`, or by asking to "do some desk research",
+"find supporting evidence / sources / data for this", "what backs up our recommendation",
+"build the evidence base". It reads the project to find the load-bearing claims that lack a
+source, frames sharp researchable questions, runs the research through the `deep-research`
+harness (it doesn't reinvent search/verify), then produces a write-up with an evidence
+table (**claim → sources → strength**) and a designed PDF. Its discipline is honesty: where
+the evidence is thin, mixed, or **contradicts the thesis**, it says so up front — a
+deliverable that only confirms collapses the moment a client checks a source.
+
+> Distinct from `deep-research` (open-ended research on any question; desk-research is
+> anchored to *this* project and outputs a designed deliverable) and `contradictions`
+> (which audits the claims the project already makes, rather than finding new evidence).
 
 ## Adding a new skill
 

@@ -18,11 +18,11 @@ decisions are made. Companion to `README.md` and `SKILL_TEMPLATE.md`.
 |---|-------|---------|-------|
 | 1 | `/contradictions` (+ folded fact-check) | ✅ Built (Phase 1) | 1 |
 | 2 | `/fact-checker` | Don't build standalone — mode of #1 | — |
-| 3 | `/desk-research` | Build (specialise existing `deep-research`) | 3 |
+| 3 | `/desk-research` | ✅ Built (Phase 3) | 3 |
 | 4 | `/idea-graph` | Build later | 4 |
 | 5 | `/workshop` | ✅ Built (Phase 2) | 2 |
-| 6 | `/timeline` | Build | 3 |
-| 7 | `/roadmap-doc` | ✅ Built (Phase 2, markdown; PDF pending) | 2→3 |
+| 6 | `/timeline` | ✅ Built (Phase 3) | 3 |
+| 7 | `/roadmap-doc` | ✅ Built (Phase 2 content + Phase 3 PDF) | 2→3 |
 | 8 | `/meeting-agenda` | ✅ Built (Phase 1) | 1 |
 | 9 | `/evals` | Build — separate track | 4 |
 
@@ -37,8 +37,14 @@ decisions are made. Companion to `README.md` and `SKILL_TEMPLATE.md`.
 > `roadmap-doc` ships a `northwind-platform` fixture and `workshop` reuses `acme-insight`.
 > Plugin version bumped to `0.3.0`.
 >
-> **Blocked on Phase 0 decisions** (output toolchain, vendor-vs-shared render scripts)
-> before Phase 3: `/timeline`, `/desk-research`, and `/roadmap-doc`'s PDF export.
+> **Phase 3 status (built):** `/roadmap-doc` PDF export wired (vendored `render_pdf.py` +
+> `house-style.css`); `/timeline` (`scripts/build_xlsx.py` for the Excel Gantt + vendored
+> render files); `/desk-research` (wraps the `deep-research` harness + project-grounding +
+> evidence table + designed PDF). Render engine proven end-to-end on this machine. Plugin
+> version bumped to `0.4.0`.
+>
+> **Remaining — Phase 4:** `/idea-graph` (needs downstream-consumer decision) and `/evals`
+> (AI/LLM product evals, separate track).
 
 ## Build order
 
