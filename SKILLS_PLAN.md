@@ -20,9 +20,9 @@ decisions are made. Companion to `README.md` and `SKILL_TEMPLATE.md`.
 | 2 | `/fact-checker` | Don't build standalone — mode of #1 | — |
 | 3 | `/desk-research` | Build (specialise existing `deep-research`) | 3 |
 | 4 | `/idea-graph` | Build later | 4 |
-| 5 | `/workshop` | Build — flagship | 2 |
+| 5 | `/workshop` | ✅ Built (Phase 2) | 2 |
 | 6 | `/timeline` | Build | 3 |
-| 7 | `/roadmap-doc` | Build | 2→3 |
+| 7 | `/roadmap-doc` | ✅ Built (Phase 2, markdown; PDF pending) | 2→3 |
 | 8 | `/meeting-agenda` | ✅ Built (Phase 1) | 1 |
 | 9 | `/evals` | Build — separate track | 4 |
 
@@ -30,7 +30,15 @@ decisions are made. Companion to `README.md` and `SKILL_TEMPLATE.md`.
 > `/contradictions` (`skills/contradictions/` + `scripts/extract_claims.py`), each with
 > `tests/<name>/evals.json`; `contradictions` ships a planted-contradiction fixture
 > (`tests/contradictions/fixtures/acme-insight/`). Plugin version bumped to `0.2.0`.
-> Next up: Phase 2 (`/workshop`, then `/roadmap-doc` content logic).
+>
+> **Phase 2 status (built):** `/workshop` (`skills/workshop/`, no script — parallel-agent
+> orchestration + interactive dialogue) and `/roadmap-doc` (`skills/roadmap-doc/`, markdown
+> output; designed-PDF export deferred to Phase 0/3). Each has `tests/<name>/evals.json`;
+> `roadmap-doc` ships a `northwind-platform` fixture and `workshop` reuses `acme-insight`.
+> Plugin version bumped to `0.3.0`.
+>
+> **Blocked on Phase 0 decisions** (output toolchain, vendor-vs-shared render scripts)
+> before Phase 3: `/timeline`, `/desk-research`, and `/roadmap-doc`'s PDF export.
 
 ## Build order
 

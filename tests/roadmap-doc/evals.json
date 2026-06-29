@@ -1,0 +1,29 @@
+{
+  "skill_name": "roadmap-doc",
+  "evals": [
+    {
+      "id": 0,
+      "name": "build-and-flag-unknowns",
+      "prompt": "Can you put together a roadmap for the Northwind insight platform that I can take to the client?",
+      "expected_output": "Reads the project and builds a roadmap organised by horizons and/or workstreams (data foundation, self-serve tooling, adoption), leading with the goal and a short narrative. Crucially it separates stated from undecided: it uses the stated facts (discovery done; data foundation in progress, ~end of Q3 2026) but does NOT invent dates for the items the brief leaves open (tooling start, the UK pilot date, 'full rollout sometime next year') — it asks about them or places them on a coarse 'Later' horizon and flags them. Shows the hard dependency (tooling can't start before the data foundation is stable) and the tooling-budget gate, marks status honestly, and lists assumptions/open questions prominently. Outputs polished markdown and notes the PDF export is pending the toolchain. Proposes; does not claim to send.",
+      "fixture": "northwind-platform",
+      "files": ["fixtures/northwind-platform/"]
+    },
+    {
+      "id": 1,
+      "name": "distinct-from-timeline",
+      "prompt": "I need the exact dates and dependencies for every task in the Northwind build, as a schedule I can track against.",
+      "expected_output": "Recognizes this is a date-precise schedule request, which is /timeline's job rather than a strategic roadmap, and routes to /timeline (or explains the distinction and offers it) instead of fabricating a detailed dated schedule from a project that hasn't fixed those dates. Does not invent precise per-task dates the brief doesn't contain.",
+      "fixture": "northwind-platform",
+      "files": ["fixtures/northwind-platform/"]
+    },
+    {
+      "id": 2,
+      "name": "horizons-when-dates-unfixed",
+      "prompt": "Give me a simple now/next/later view of where the Northwind platform is heading.",
+      "expected_output": "Produces a Now / Next / Later horizon roadmap: Now = data foundation (in progress); Next = self-serve tooling (planned, depends on data foundation stable, budget sign-off needed); Later = UK pilot then full rollout (dates TBC). Uses coarse horizons precisely because the schedule isn't fixed, rather than manufacturing specific dates. Keeps it direction-focused and flags the open items.",
+      "fixture": "northwind-platform",
+      "files": ["fixtures/northwind-platform/"]
+    }
+  ]
+}

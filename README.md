@@ -211,6 +211,47 @@ never edits the project's claims on its own judgement.
 > changed) and `desk-research` (which gathers *new* supporting evidence rather than
 > auditing the claims already made).
 
+### `workshop` — interactive thinking partner that pressure-tests ideas
+
+Thinking alone has a blind spot: you test an idea against the same mind that produced it,
+so it tends to survive. Workshop breaks that loop — it looks at an idea, decision, or plan
+from several angles at once using parallel agents, then puts the sharpest challenges back
+to you as questions rather than agreeing.
+
+**Trigger it** by typing `/toolkit:workshop`, or by wanting to think something through
+hard — "pressure-test this idea", "poke holes in this", "play devil's advocate", "red-team
+this plan", "I'm trying to decide between X and Y", "what am I missing". It frames the goal,
+fans out a panel of lenses (assumptions, risks, alternatives, evidence, the strongest
+counter-case, the stakeholder view), then — instead of dumping six reports — converges to
+the 2–3 questions that most change the answer and the pushback most likely to matter, and
+works them through with you. It's deliberately frictional (agreement is the wasted
+outcome) and interactive (it asks and pushes), and it lands on a readout — where you
+ended up, what got stronger, what's still open, next steps — offering handoffs to
+`desk-research`, `idea-graph`, `contradictions`, `roadmap-doc`, or `meeting-agenda`.
+
+> Distinct from `meeting-agenda` (a deliverable to send), `desk-research` (gathering new
+> sourced evidence) and `contradictions` (auditing existing claims). Workshop develops
+> *new* thinking; it hands off to the others when the thinking is done.
+
+### `roadmap-doc` — client-ready roadmap of direction and priorities
+
+A roadmap answers a different question from a schedule: not *when each task happens* but
+*where we're going, in what order, and why*. This builds that strategic view from the
+project's goals, workstreams, and milestones — at enough altitude to be credible without
+the false precision that turns a roadmap into a brittle list of dates.
+
+**Trigger it** by typing `/toolkit:roadmap-doc`, or by asking to "create a roadmap", "lay
+out the phases", "show the plan over the next few quarters", "map out the milestones for
+the client". It reads the project, then carefully separates what's **stated**, what's
+**implied** (marked as an assumption), and what's **undecided** — asking you about the last
+rather than inventing a date or commitment. It organises the result into horizons (Now /
+Next / Later, or quarters) and workstream swimlanes with honest status, shows the
+dependencies and what's been parked, and surfaces every assumption for you to correct.
+
+> Outputs polished markdown today; a **designed PDF export follows once the document
+> toolchain is in place** (Phase 0). Distinct from `timeline` (the date-precise schedule —
+> when each thing happens, with dependencies, as Excel + a visual), which it composes with.
+
 ## Adding a new skill
 
 1. Copy `SKILL_TEMPLATE.md` into a new folder:
