@@ -2,7 +2,7 @@
 name: roadmap-doc
 description: Build a clear, client-ready roadmap from a project's goals, workstreams, and milestones — a strategic view of direction and priorities over time, not a date-precise schedule. Use whenever the user types /roadmap-doc, or asks to "create / draft / put together a roadmap", "lay out the phases", "show the plan over the next few quarters", "what's the roadmap for this", "map out the milestones for the client". It reads the project for goals, workstreams, milestones, dependencies and status, asks you to confirm anything it can't infer (it never invents dates or commitments), then organises it into time horizons and workstreams with honest status and a short narrative of the journey. Outputs a polished markdown roadmap now; a designed PDF export follows once the document toolchain is in place. Distinct from /timeline (the date-precise schedule — when each thing happens, with dependencies, as Excel + a visual) and /meeting-agenda; it composes with both.
 argument-hint: "[project or the horizon to cover, e.g. 'next 3 quarters']"
-allowed-tools: Read Grep Glob
+allowed-tools: Read Grep Glob Bash
 ---
 
 # Roadmap doc
@@ -107,13 +107,41 @@ project:
 - <every inferred date/commitment, and everything still TBC with the client>
 ```
 
+Lead with markdown — it's fast to review and revise, so get the structure and the facts
+right with the user *before* spending effort on the designed version.
+
+### 5. Render the client-ready PDF
+
+Once the markdown roadmap is agreed, produce the designed PDF. Author it as a single HTML
+file using the bundled house style, then render with the bundled script:
+
+1. Read `scripts/house-style.css` and inline it into a `<style>` block in your HTML (it
+   defines the cover band, status `.pill`s, horizon `.card`s, and print `@page` setup).
+   **Swap the placeholder `--accent` / `--ink` palette for the client's or Mesh's brand
+   colours** before sending — the defaults are neutral on purpose.
+2. Lay out the roadmap content into that HTML: a `.cover` block (title, goal, horizon,
+   "status as of" date), the horizon/swimlane sections as `.card`s, the milestone table
+   with status pills, and the dependencies / parked / assumptions sections.
+3. Render:
+
+```
+python <skill-dir>/scripts/render_pdf.py roadmap.html roadmap.pdf
+```
+
+It finds a headless Chrome/Edge on the machine (no install) and prints to PDF, verifying
+the file was produced. Save the `.html`, `.pdf`, and the source `.md` alongside the
+project (or wherever the user keeps deliverables); tell the user where they are.
+
 Close by surfacing the **assumptions and open questions** prominently (so the user can
 correct them before this reaches a client), and offer the **`/timeline`** handoff if they
 want the date-precise schedule underneath this roadmap.
 
-> **Designed PDF — pending the document toolchain.** For now the output is polished
-> markdown. Once the Phase 0 render approach is in place (HTML+CSS → PDF), this same
-> structure renders to a designed, client-ready PDF; the content logic here doesn't change.
+## Bundled files
+
+- `scripts/render_pdf.py` — HTML → PDF via a headless Chrome/Edge already on the machine
+  (no install). Pure stdlib. `python scripts/render_pdf.py in.html [out.pdf]`.
+- `scripts/house-style.css` — the shared deliverable print style (cover band, status
+  pills, horizon cards, A4 `@page`). Inline it into the HTML; swap the palette for brand.
 
 ## Principles
 

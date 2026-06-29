@@ -1,0 +1,90 @@
+/* Deliverable house style — shared print stylesheet for client-ready PDFs.
+ *
+ * Vendored identically into each deliverable skill (roadmap-doc, timeline,
+ * desk-research). Keep the copies in sync. Authored documents inline this into
+ * a <style> block, then render with render_pdf.py (headless Chrome/Edge).
+ *
+ * PALETTE IS A PLACEHOLDER. Swap --accent / --ink for the client's or Mesh's
+ * brand colours before sending — neutral, professional defaults are used here
+ * so nothing reads as a stock template.
+ */
+
+:root {
+  --accent: #2d6a4f;       /* swap for brand */
+  --accent-soft: #e8f0ec;
+  --ink: #1a1f2b;
+  --muted: #5b6472;
+  --rule: #dfe3e8;
+  --ok: #2d6a4f;
+  --warn: #b7791f;
+  --risk: #b23a48;
+}
+
+@page {
+  size: A4;
+  margin: 18mm 16mm 20mm 16mm;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: "Segoe UI", -apple-system, "Helvetica Neue", Arial, sans-serif;
+  color: var(--ink);
+  font-size: 11pt;
+  line-height: 1.5;
+  margin: 0;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* Cover / title band */
+.cover {
+  background: var(--accent);
+  color: #fff;
+  padding: 28px 30px;
+  border-radius: 10px;
+  margin-bottom: 22px;
+}
+.cover h1 { margin: 0 0 6px; font-size: 26pt; font-weight: 700; letter-spacing: -0.01em; }
+.cover .meta { font-size: 10.5pt; opacity: 0.9; }
+.cover .goal { margin-top: 14px; font-size: 12.5pt; font-weight: 600; }
+
+/* Headings */
+h2 {
+  font-size: 15pt;
+  margin: 22px 0 8px;
+  padding-bottom: 5px;
+  border-bottom: 2px solid var(--accent);
+}
+h3 { font-size: 12pt; margin: 16px 0 6px; color: var(--accent); }
+
+.lead { color: var(--muted); font-size: 11.5pt; font-style: italic; margin: 0 0 16px; }
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; margin: 10px 0 16px; font-size: 10.5pt; }
+th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { background: var(--accent-soft); font-weight: 600; }
+tr { break-inside: avoid; }
+
+/* Status pills */
+.pill { display: inline-block; padding: 1px 9px; border-radius: 10px; font-size: 9pt; font-weight: 600; white-space: nowrap; }
+.pill.done { background: var(--accent-soft); color: var(--ok); }
+.pill.progress { background: #fff4e0; color: var(--warn); }
+.pill.planned { background: #eef1f5; color: var(--muted); }
+.pill.risk { background: #fbe6e9; color: var(--risk); }
+
+/* Horizon / section cards */
+.card { border: 1px solid var(--rule); border-radius: 8px; padding: 14px 16px; margin: 10px 0; break-inside: avoid; }
+.card h3 { margin-top: 0; }
+
+ul { margin: 6px 0; padding-left: 20px; }
+li { margin: 3px 0; }
+
+.assumption { color: var(--muted); font-size: 9.5pt; font-style: italic; }
+
+/* Footnote / source block */
+.sources { font-size: 9pt; color: var(--muted); border-top: 1px solid var(--rule); margin-top: 18px; padding-top: 8px; }
+
+/* Print niceties */
+h2, h3 { break-after: avoid; }
+.page-break { break-before: page; }
