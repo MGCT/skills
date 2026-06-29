@@ -53,24 +53,30 @@ decisions are made. Companion to `README.md` and `SKILL_TEMPLATE.md`.
   rendering, `/desk-research`.
 - **Phase 4 — Higher-uncertainty.** `/idea-graph`, then `/evals`.
 
-## Phase 0 — output toolchain (the unblocker)
+## Phase 0 — output toolchain (the unblocker) — DECIDED & PROVEN
 
-**Recommended stack**
-- Author every designed document as **HTML + print CSS** (`@page`, page-break control).
-  Reuse `frontend-design` / `artifact-design` for the look.
-- **HTML → PDF: Playwright Chromium** (`pip install playwright && playwright install
-  chromium`), via a small `render_pdf.py`. Bundles its own browser → no system-lib hunt.
-  Fallback: headless Edge/Chrome `--print-to-pdf` (Edge ships on Windows).
-- **Excel: openpyxl** (styling, number formats, native charts) via `xlsx.py` helpers.
+**Locked stack** (decisions made; engine smoke-tested on this machine)
+- Author every designed document as **HTML + print CSS** (`@page`, page-break control,
+  `-webkit-print-color-adjust: exact` for backgrounds). Reuse `frontend-design` /
+  `artifact-design` for the look.
+- **HTML → PDF: headless Chrome/Edge `--print-to-pdf`** — zero install (both browsers are
+  present at default paths; openpyxl already installed). Proven: `render_pdf.py` produced a
+  valid backgrounded A4 PDF via `msedge.exe`. Playwright rejected as an unnecessary ~150MB
+  install given working browsers.
+- **Excel: openpyxl** (already installed) used directly in each skill — no shared helper;
+  Excel layouts are skill-specific.
+- **Packaging: vendor `render_pdf.py` into each deliverable skill's `scripts/`.** Each skill
+  stays self-contained so `npx skills -s <one>` installs cleanly. The copies must be kept in
+  sync — canonical version proven this session (currently in the session scratchpad, to be
+  committed into the first Phase 3 skill built).
 - **Reading inputs:** `python-docx` for `.docx`, `pdfplumber` for `.pdf`, `openpyxl`/
   `pandas` for spreadsheets. Add only as a skill needs them.
 
 **Deliverable house style** (define once, reuse): cover block (project, date, author),
 consistent type scale, Mesh palette, page headers/footers, source/assumptions footnotes.
 
-**Decision needed:** vendor the render scripts into each deliverable skill (install-safe
-under `npx skills -s <one>`) **or** create one `document-production` skill the deliverable
-skills call (DRY, but breaks single-skill install). See Open decisions.
+**Decision (made):** vendor `render_pdf.py` into each deliverable skill — self-contained
+and install-safe under `npx skills -s <one>`.
 
 ## Per-skill specifications
 
@@ -154,10 +160,14 @@ Ship as the `external`/`verify` mode of `/contradictions`.
   choose scoring (exact/judge/rubric) → run + report variance.
 - **NOT:** research/strategy validation (a different skill if you ever want that).
 
-## Open decisions before I write SKILL.md files
+## Open decisions
 
-1. **Vendor vs shared render scripts** (Phase 0) — self-contained per skill, or one
-   `document-production` skill? Affects how `npx skills -s <one>` behaves.
-2. **Confirm Playwright** as the PDF engine, or prefer Edge-headless / another tool.
-3. **`/idea-graph` downstream consumer** — what uses the graph?
-4. **Build `/timeline` + `/roadmap-doc` as a pair?** (shared extraction) — recommended.
+Resolved:
+1. ~~Vendor vs shared render scripts~~ → **vendor** `render_pdf.py` per skill.
+2. ~~Playwright vs Edge-headless~~ → **headless Chrome/Edge** (zero install, proven).
+
+Still open (Phase 4):
+3. **`/idea-graph` downstream consumer** — what uses the graph? (Decide before building.)
+4. **Build `/timeline` + `/roadmap-doc` as a pair?** (shared milestone extraction) —
+   recommended; `/roadmap-doc` content is already built, so Phase 3 adds its PDF export
+   alongside `/timeline`.
