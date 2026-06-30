@@ -24,6 +24,11 @@ import subprocess
 import sys
 from pathlib import Path
 
+try:  # emit UTF-8 regardless of the console's default codepage (Windows cp1252)
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+except (AttributeError, ValueError):
+    pass
+
 WIN_CANDIDATES = [
     r"C:\Program Files\Microsoft\Edge\Application\msedge.exe",
     r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe",

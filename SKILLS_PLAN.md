@@ -19,12 +19,15 @@ decisions are made. Companion to `README.md` and `SKILL_TEMPLATE.md`.
 | 1 | `/contradictions` (+ folded fact-check) | ✅ Built (Phase 1) | 1 |
 | 2 | `/fact-checker` | Don't build standalone — mode of #1 | — |
 | 3 | `/desk-research` | ✅ Built (Phase 3) | 3 |
-| 4 | `/idea-graph` | Build later | 4 |
+| 4 | `/idea-graph` | ✅ Built (Phase 4) | 4 |
 | 5 | `/workshop` | ✅ Built (Phase 2) | 2 |
 | 6 | `/timeline` | ✅ Built (Phase 3) | 3 |
 | 7 | `/roadmap-doc` | ✅ Built (Phase 2 content + Phase 3 PDF) | 2→3 |
 | 8 | `/meeting-agenda` | ✅ Built (Phase 1) | 1 |
-| 9 | `/evals` | Build — separate track | 4 |
+| 9 | `/evals` | ✅ Built (Phase 4) | 4 |
+
+> **All nine resolved.** 8 skills built (`fact-checker` folded into `contradictions` as
+> designed). Suite complete.
 
 > **Phase 1 status (built):** `/meeting-agenda` (`skills/meeting-agenda/`, no script) and
 > `/contradictions` (`skills/contradictions/` + `scripts/extract_claims.py`), each with
@@ -43,8 +46,14 @@ decisions are made. Companion to `README.md` and `SKILL_TEMPLATE.md`.
 > evidence table + designed PDF). Render engine proven end-to-end on this machine. Plugin
 > version bumped to `0.4.0`.
 >
-> **Remaining — Phase 4:** `/idea-graph` (needs downstream-consumer decision) and `/evals`
-> (AI/LLM product evals, separate track).
+> **Phase 4 status (built):** `/idea-graph` (`scripts/build_graph.py` — seeded layout →
+> self-contained interactive HTML + Mermaid + cluster/hub/orphan analytics; the consumer
+> question was settled as "standalone deliverable that lives in the project to explain ideas
+> to others") and `/evals` (`scripts/aggregate.py` — variance-aware metrics for AI/LLM
+> evals; points at `claude-api` for model ids). Plugin version bumped to `0.5.0`.
+>
+> **Suite complete.** All scripts force UTF-8 stdout for Windows-console safety; render
+> engine + Excel + idea-graph + aggregation all proven on this machine.
 
 ## Build order
 

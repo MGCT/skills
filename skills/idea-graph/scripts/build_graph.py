@@ -33,6 +33,11 @@ import random
 import sys
 from pathlib import Path
 
+try:  # emit UTF-8 regardless of the console's default codepage (Windows cp1252)
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+except (AttributeError, ValueError):
+    pass
+
 PALETTE = [
     "#2d6a4f", "#1d6fb8", "#b7791f", "#7048a6", "#b23a48",
     "#0e7c7b", "#a64d79", "#3a7d44", "#c2571a", "#4a5568",

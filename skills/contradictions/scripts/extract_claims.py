@@ -33,6 +33,11 @@ import re
 import sys
 from pathlib import Path
 
+try:  # emit UTF-8 regardless of the console's default codepage (Windows cp1252)
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+except (AttributeError, ValueError):
+    pass
+
 TEXT_EXTS = {".md", ".markdown", ".txt", ".rst", ".text", ".adoc", ".org"}
 # Binary doc formats we can't read with stdlib — reported so they aren't silently missed.
 DOC_EXTS = {".docx", ".pdf", ".pptx", ".doc", ".ppt"}

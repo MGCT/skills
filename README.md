@@ -294,6 +294,50 @@ deliverable that only confirms collapses the moment a client checks a source.
 > anchored to *this* project and outputs a designed deliverable) and `contradictions`
 > (which audits the claims the project already makes, rather than finding new evidence).
 
+### `idea-graph` — a navigable map of the project's thinking
+
+Project thinking is a web, but it's written down as a line — pages read top to bottom, with
+the connections that make it cohere scattered and invisible. This lays the concepts out as a
+graph and turns "read everything and hold it in your head" into something you can see and
+explore. It's built as a **standalone, self-contained interactive HTML file that lives in
+the project** and can be handed to a teammate or client to explain the thinking — no server,
+no dependencies, opens offline.
+
+**Trigger it** by typing `/toolkit:idea-graph`, or by asking to "map the ideas / concepts",
+"build a concept map", "show how these ideas connect", "visualise the thinking", "make
+something to explain this to the team". It reads the project for the concepts (nodes) and
+their labelled relationships (edges), groups them into themes, and a bundled `build_graph.py`
+renders an interactive map (pan / zoom / click an idea to see its links) plus a Mermaid
+source. The value is the **read-out it pairs with the file**: the central ideas (hubs), the
+themes (clusters), and the gaps — orphan ideas with no links, or a graph that splits into
+disconnected pieces, each a question about whether a connection is missing or the idea is
+genuinely adrift.
+
+> Distinct from `workshop` (which *develops and pressure-tests* thinking — idea-graph *maps*
+> thinking that already exists) and from `roadmap-doc`/`timeline` (time-structured; an idea
+> graph is concept-structured, with no time axis).
+
+### `evals` — design and run evaluations for an AI/LLM feature
+
+The difference between "the new prompt feels better" and "it lifts the pass-rate from 71% to
+84% (±4)". This builds that instrument for a specific AI capability in the project — so a
+change to a prompt, model, or retrieval step can be *measured* instead of guessed, and
+regressions don't ship silently.
+
+**Trigger it** by typing `/toolkit:evals`, or by asking to "set up / design evals", "how do
+I test this AI feature / prompt / agent", "measure the model's output", "is the prompt
+actually better", "LLM-as-judge". It scopes the capability and the failure modes that
+matter, builds a representative **and** adversarial labelled case set under `tests/`, picks a
+scorer to fit the task (exact/assertion, LLM-as-judge with a validated rubric, or human),
+and — because LLM outputs are stochastic — insists on running each case several times and
+reporting **mean + variance + confidence interval** via a bundled `aggregate.py` (which also
+flags flaky cases), not a single lucky number. For current Claude model ids it points at the
+`claude-api` skill rather than hardcoding them.
+
+> The AI-engineering track of the suite. Distinct from `contradictions` (auditing document
+> claims) and from research/strategy validation. Shares its variance-analysis discipline
+> with the built-in `skill-creator`.
+
 ## Adding a new skill
 
 1. Copy `SKILL_TEMPLATE.md` into a new folder:

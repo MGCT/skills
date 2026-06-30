@@ -1,0 +1,29 @@
+{
+  "skill_name": "evals",
+  "evals": [
+    {
+      "id": 0,
+      "name": "scope-design-variance",
+      "prompt": "We've built a support-ticket classifier on top of an LLM and I want to set up evals for it before we ship. Help me design them.",
+      "expected_output": "Scopes first: the capability (ticket classification), what good/bad looks like, the failure modes that matter, and the decision the eval informs. Designs a labelled case set under tests/ that is representative AND adversarial (edge cases / known failure categories), with a held-out slice. Recommends an exact/assertion scorer (classification is closed-label, so no LLM judge needed). Crucially insists on running each case multiple times and reporting mean + variance + CI via aggregate.py rather than a single accuracy number, and on reading the failing/flaky cases. Does not just hand back a generic 'write some tests' answer.",
+      "fixture": "",
+      "files": []
+    },
+    {
+      "id": 1,
+      "name": "open-ended-judge-validation",
+      "prompt": "Our feature summarises research documents. How do I measure if the summaries are any good, and is LLM-as-judge the way?",
+      "expected_output": "Recognizes the output is open-ended so exact match won't work and LLM-as-judge is appropriate — but conditions it correctly: give the judge an explicit rubric, pin the judge model (and points to the claude-api skill for the current Claude model id rather than hardcoding one), and VALIDATE the judge against human labels on a sample before trusting it at scale. Also covers building representative+adversarial cases and reporting variance across runs. Flags the judge as a fallible model, not ground truth.",
+      "fixture": "",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "single-run-is-noise",
+      "prompt": "I ran our eval once and the new prompt scored 86% vs 83% before — ship it?",
+      "expected_output": "Pushes back that a single run of a stochastic LLM is noise and a 3-point gap is likely within the confidence interval — so it's not yet evidence the new prompt is better. Recommends running each case several times, aggregating with mean + 95% CI (aggregate.py), checking the intervals overlap, and watching for flaky cases, before concluding. Resists rubber-stamping a ship decision on one noisy run.",
+      "fixture": "",
+      "files": []
+    }
+  ]
+}
