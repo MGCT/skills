@@ -1,0 +1,29 @@
+{
+  "skill_name": "idea-graph",
+  "evals": [
+    {
+      "id": 0,
+      "name": "map-and-readout",
+      "prompt": "Turn the thinking in the Acme project into an idea graph I can drop in the project and use to explain it to the team.",
+      "expected_output": "Reads the project and identifies its concepts as nodes (e.g. subscription product, the two segments, the product tiers, market, the recommendation) with labelled edges (targets / fits / chooses / supports) grouped into themed clusters, faithful to what the project actually says. Assembles a JSON spec and runs build_graph.py to produce a self-contained interactive HTML deliverable (+ Mermaid source), saved into the project with a clear name (not overwriting existing files). Then writes a read-out from the analytics: the hubs (central ideas), the clusters/themes, and any orphans or graph splits. Offers handoffs (/workshop, /contradictions). Does not just hand over a file without interpretation.",
+      "fixture": "acme-insight",
+      "files": ["../contradictions/fixtures/acme-insight/"]
+    },
+    {
+      "id": 1,
+      "name": "surface-gaps-not-hide",
+      "prompt": "Build an idea map of the Acme strategy and tell me if anything looks disconnected.",
+      "expected_output": "Builds the graph and uses the orphan/component analytics to honestly surface gaps — an idea connected to nothing, or a set of ideas floating apart from the thesis — framing each as a question (missing link vs genuinely disconnected idea) rather than inventing connections to make the graph look complete. The intellectual honesty about gaps, not the visual, is the test.",
+      "fixture": "acme-insight",
+      "files": ["../contradictions/fixtures/acme-insight/"]
+    },
+    {
+      "id": 2,
+      "name": "distinct-from-workshop",
+      "prompt": "I want to pressure-test whether targeting younger professionals is actually the right call for Acme — challenge me on it.",
+      "expected_output": "Recognizes this is develop-and-pressure-test work (/workshop), not mapping existing thinking into an artifact, and routes to /workshop rather than building a static idea graph. May note that an idea graph could map the concept space first as input to the workshop, but does not treat a 'challenge my thinking' request as an idea-graph job.",
+      "fixture": "acme-insight",
+      "files": ["../contradictions/fixtures/acme-insight/"]
+    }
+  ]
+}
