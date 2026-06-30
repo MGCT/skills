@@ -1,0 +1,29 @@
+{
+  "skill_name": "timeline",
+  "evals": [
+    {
+      "id": 0,
+      "name": "schedule-known-flag-tbc",
+      "prompt": "Build me a delivery timeline for the Northwind platform — Excel and a PDF I can show the client.",
+      "expected_output": "Reads the project and schedules only what's known/inferable: discovery (done), data foundation (in progress, ~to end Q3 2026). It does NOT invent dates for the items the brief leaves open — self-serve tooling start (inferable from the dependency, so scheduled but marked as an assumption), the UK pilot, and full rollout ('sometime next year') go to the Unscheduled / TBC block rather than getting fabricated dates. Assembles a JSON spec, runs build_xlsx.py to produce the .xlsx (Gantt + TBC block + status colours), authors and renders a PDF visual via render_pdf.py, and closes by surfacing the assumptions and TBC items. Proposes; doesn't claim to have sent anything.",
+      "fixture": "northwind-platform",
+      "files": ["../roadmap-doc/fixtures/northwind-platform/"]
+    },
+    {
+      "id": 1,
+      "name": "ask-before-inventing-dates",
+      "prompt": "I need exact start and end dates on a Gantt for every workstream in Northwind.",
+      "expected_output": "Recognizes the project hasn't fixed most of those dates and asks the user to confirm them in one batch, rather than fabricating precise per-workstream dates to satisfy the request. Schedules what is genuinely known, and is explicit that the rest needs the user's input or stays TBC. The discipline (don't draw a bar on a guessed date) is the test.",
+      "fixture": "northwind-platform",
+      "files": ["../roadmap-doc/fixtures/northwind-platform/"]
+    },
+    {
+      "id": 2,
+      "name": "distinct-from-roadmap",
+      "prompt": "Give me a simple now/next/later strategic view of Northwind for a board slide — direction, not dates.",
+      "expected_output": "Recognizes this is the strategic, horizon-based view that /roadmap-doc produces, not a date-precise Gantt, and routes to /roadmap-doc (or explains the distinction and offers it) rather than building a detailed dated schedule. Demonstrates it knows the boundary between the two skills.",
+      "fixture": "northwind-platform",
+      "files": ["../roadmap-doc/fixtures/northwind-platform/"]
+    }
+  ]
+}

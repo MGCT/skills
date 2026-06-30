@@ -162,6 +162,182 @@ path/file mechanics.
 > permanent memory holds *durable* facts for every future session; a handover is
 > *disposable working state* for resuming one in-flight task.
 
+### `meeting-agenda` — client-ready agenda for an upcoming meeting
+
+Turns what the project already knows — plus the few facts only you can supply — into a
+tidy, decision-led agenda you can send. Instead of a generic "intro / update / AOB"
+template, it reads the project for the *real* open decisions, risks, and milestones and
+builds the running order from those.
+
+**Trigger it** by typing `/toolkit:meeting-agenda`, or by saying you've got a meeting
+coming up — "draft an agenda", "what should we cover with the client", "agenda for
+Thursday's call", "prep for the kickoff". It asks for the few essentials it can't infer
+(purpose, attendees, length, format) in one short batch, mines the project for topics
+that need *this* audience, then builds a timed running order — each item tagged
+**[Decision] / [Discussion] / [Update] / [Info]** with an owner and a minute budget that
+fits the slot — opening on the objective and closing on next steps. It outputs the agenda
+plus a short covering note, surfaces the assumptions it made and any gaps, and leaves the
+sending to you.
+
+> Distinct from `workshop` (internal idea stress-testing, not a client deliverable) and
+> `handover` (resuming your own work, not running a meeting).
+
+### `contradictions` — find where the work disagrees with itself, or with the world
+
+A deliberate integrity pass over a body of work. It catches the conflicts a linear read
+misses — a figure in the brief that stops matching the deck, a launch date given two ways,
+a recommendation that quietly reverses an earlier finding — and, in verify mode, claims
+that are simply *wrong*: an unchecked statistic or market size now load-bearing in a
+client deliverable.
+
+**Trigger it** by typing `/toolkit:contradictions`, or by asking to "check for
+contradictions / inconsistencies", "does anything here conflict", "sanity-check the
+numbers", "fact-check this", "verify these claims". It runs in two modes:
+
+- **Internal** (default) — a semantic scan for self-contradiction: figures that don't
+  reconcile, dates or statuses that disagree across docs, reversed positions, terms
+  defined two ways. It clusters claims by subject and rules out apparent gaps that scope
+  or timing explains, so it doesn't cry wolf.
+- **External / verify** — extracts the project's checkable claims and web-searches them,
+  returning a verdict per claim (Supported / Contradicted / Unsupported / Outdated) with
+  the source and date.
+
+A bundled scanner (`scripts/extract_claims.py`) finds the candidate claims with `file:line`
+provenance so nothing is missed on a large project. It reports findings ranked by
+severity, with the conflicting passages cited side by side and a proposed resolution — and
+never edits the project's claims on its own judgement.
+
+> Distinct from `wrap-up` (a light end-of-session check that docs match the code that just
+> changed) and `desk-research` (which gathers *new* supporting evidence rather than
+> auditing the claims already made).
+
+### `workshop` — interactive thinking partner that pressure-tests ideas
+
+Thinking alone has a blind spot: you test an idea against the same mind that produced it,
+so it tends to survive. Workshop breaks that loop — it looks at an idea, decision, or plan
+from several angles at once using parallel agents, then puts the sharpest challenges back
+to you as questions rather than agreeing.
+
+**Trigger it** by typing `/toolkit:workshop`, or by wanting to think something through
+hard — "pressure-test this idea", "poke holes in this", "play devil's advocate", "red-team
+this plan", "I'm trying to decide between X and Y", "what am I missing". It frames the goal,
+fans out a panel of lenses (assumptions, risks, alternatives, evidence, the strongest
+counter-case, the stakeholder view), then — instead of dumping six reports — converges to
+the 2–3 questions that most change the answer and the pushback most likely to matter, and
+works them through with you. It's deliberately frictional (agreement is the wasted
+outcome) and interactive (it asks and pushes), and it lands on a readout — where you
+ended up, what got stronger, what's still open, next steps — offering handoffs to
+`desk-research`, `idea-graph`, `contradictions`, `roadmap-doc`, or `meeting-agenda`.
+
+> Distinct from `meeting-agenda` (a deliverable to send), `desk-research` (gathering new
+> sourced evidence) and `contradictions` (auditing existing claims). Workshop develops
+> *new* thinking; it hands off to the others when the thinking is done.
+
+### `roadmap-doc` — client-ready roadmap of direction and priorities
+
+A roadmap answers a different question from a schedule: not *when each task happens* but
+*where we're going, in what order, and why*. This builds that strategic view from the
+project's goals, workstreams, and milestones — at enough altitude to be credible without
+the false precision that turns a roadmap into a brittle list of dates.
+
+**Trigger it** by typing `/toolkit:roadmap-doc`, or by asking to "create a roadmap", "lay
+out the phases", "show the plan over the next few quarters", "map out the milestones for
+the client". It reads the project, then carefully separates what's **stated**, what's
+**implied** (marked as an assumption), and what's **undecided** — asking you about the last
+rather than inventing a date or commitment. It organises the result into horizons (Now /
+Next / Later, or quarters) and workstream swimlanes with honest status, shows the
+dependencies and what's been parked, and surfaces every assumption for you to correct.
+
+> Outputs a polished markdown roadmap and a **designed, client-ready PDF** (authored as
+> HTML with a shared house style, rendered via a bundled headless-browser script — no
+> install). Distinct from `timeline` (the date-precise schedule — when each thing happens,
+> with dependencies, as Excel + a visual), which it composes with.
+
+### `timeline` — date-precise schedule as Excel + a PDF visual
+
+The operational counterpart to a roadmap: *when does each thing happen, in what order, and
+what is it waiting on?* — the artifact you track delivery against. It reads the project's
+milestones and dates and produces a styled Excel schedule with a month-by-month Gantt, plus
+a designed PDF one-pager.
+
+**Trigger it** by typing `/toolkit:timeline`, or by asking to "build a timeline", "lay out
+the schedule", "put the milestones on a Gantt", "when does each phase land", "a delivery
+schedule I can track against". It's built around one discipline: **it never draws a Gantt
+bar on a guessed date.** Stated dates are scheduled; dates merely inferred from a dependency
+are scheduled but flagged as assumptions; anything undecided is shown in an explicit
+**Unscheduled / TBC** block rather than invented — because a bar reads as a commitment. A
+bundled `build_xlsx.py` renders the Excel (status-coloured Gantt, TBC block, legend, frozen
+panes); the PDF visual uses the same shared house style.
+
+> Distinct from `roadmap-doc` (the higher-altitude strategic view — direction and
+> priorities by horizon, deliberately coarse on dates). Same source material, different
+> question; they pair well.
+
+### `desk-research` — external evidence for a project's thesis, as a deliverable
+
+Finds the stats, studies, and precedents that stand behind what a project is already
+saying, and writes them up as a cited, client-ready report. It's a **specialisation of the
+`deep-research` skill**, not a replacement: it grounds the questions in the project's
+thesis, frames the goal as *supporting (or testing)* that thesis, and packages the result
+as a designed deliverable with an evidence table.
+
+**Trigger it** by typing `/toolkit:desk-research`, or by asking to "do some desk research",
+"find supporting evidence / sources / data for this", "what backs up our recommendation",
+"build the evidence base". It reads the project to find the load-bearing claims that lack a
+source, frames sharp researchable questions, runs the research through the `deep-research`
+harness (it doesn't reinvent search/verify), then produces a write-up with an evidence
+table (**claim → sources → strength**) and a designed PDF. Its discipline is honesty: where
+the evidence is thin, mixed, or **contradicts the thesis**, it says so up front — a
+deliverable that only confirms collapses the moment a client checks a source.
+
+> Distinct from `deep-research` (open-ended research on any question; desk-research is
+> anchored to *this* project and outputs a designed deliverable) and `contradictions`
+> (which audits the claims the project already makes, rather than finding new evidence).
+
+### `idea-graph` — a navigable map of the project's thinking
+
+Project thinking is a web, but it's written down as a line — pages read top to bottom, with
+the connections that make it cohere scattered and invisible. This lays the concepts out as a
+graph and turns "read everything and hold it in your head" into something you can see and
+explore. It's built as a **standalone, self-contained interactive HTML file that lives in
+the project** and can be handed to a teammate or client to explain the thinking — no server,
+no dependencies, opens offline.
+
+**Trigger it** by typing `/toolkit:idea-graph`, or by asking to "map the ideas / concepts",
+"build a concept map", "show how these ideas connect", "visualise the thinking", "make
+something to explain this to the team". It reads the project for the concepts (nodes) and
+their labelled relationships (edges), groups them into themes, and a bundled `build_graph.py`
+renders an interactive map (pan / zoom / click an idea to see its links) plus a Mermaid
+source. The value is the **read-out it pairs with the file**: the central ideas (hubs), the
+themes (clusters), and the gaps — orphan ideas with no links, or a graph that splits into
+disconnected pieces, each a question about whether a connection is missing or the idea is
+genuinely adrift.
+
+> Distinct from `workshop` (which *develops and pressure-tests* thinking — idea-graph *maps*
+> thinking that already exists) and from `roadmap-doc`/`timeline` (time-structured; an idea
+> graph is concept-structured, with no time axis).
+
+### `evals` — design and run evaluations for an AI/LLM feature
+
+The difference between "the new prompt feels better" and "it lifts the pass-rate from 71% to
+84% (±4)". This builds that instrument for a specific AI capability in the project — so a
+change to a prompt, model, or retrieval step can be *measured* instead of guessed, and
+regressions don't ship silently.
+
+**Trigger it** by typing `/toolkit:evals`, or by asking to "set up / design evals", "how do
+I test this AI feature / prompt / agent", "measure the model's output", "is the prompt
+actually better", "LLM-as-judge". It scopes the capability and the failure modes that
+matter, builds a representative **and** adversarial labelled case set under `tests/`, picks a
+scorer to fit the task (exact/assertion, LLM-as-judge with a validated rubric, or human),
+and — because LLM outputs are stochastic — insists on running each case several times and
+reporting **mean + variance + confidence interval** via a bundled `aggregate.py` (which also
+flags flaky cases), not a single lucky number. For current Claude model ids it points at the
+`claude-api` skill rather than hardcoding them.
+
+> The AI-engineering track of the suite. Distinct from `contradictions` (auditing document
+> claims) and from research/strategy validation. Shares its variance-analysis discipline
+> with the built-in `skill-creator`.
+
 ## Adding a new skill
 
 1. Copy `SKILL_TEMPLATE.md` into a new folder:

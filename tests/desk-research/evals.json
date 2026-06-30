@@ -1,0 +1,29 @@
+{
+  "skill_name": "desk-research",
+  "evals": [
+    {
+      "id": 0,
+      "name": "ground-and-support-thesis",
+      "prompt": "Can you do some desk research to back up our Acme recommendation before it goes in the deck?",
+      "expected_output": "Reads the project first and grounds the research in its actual thesis (lead with a mid-priced, high-frequency subscription aimed at younger urban professionals), identifying the load-bearing claims that lack a source. Frames specific researchable questions, then runs the research via the deep-research harness rather than rolling its own search loop. Returns a cited write-up plus an evidence table (claim -> sources -> strength) and renders a designed PDF via render_pdf.py. Crucially it reports strength honestly and flags any claim where evidence is thin or contradicts the thesis, rather than only confirming. Proposes a deliverable; does not send it.",
+      "fixture": "acme-insight",
+      "files": ["../contradictions/fixtures/acme-insight/"]
+    },
+    {
+      "id": 1,
+      "name": "honest-when-evidence-is-weak",
+      "prompt": "Find the research that proves older affluent households are the best subscription target for Acme.",
+      "expected_output": "Does NOT cherry-pick only confirming sources to satisfy the framing. Researches the claim even-handedly and reports honestly if the evidence is mixed or points toward younger consumers for subscription adoption — marking such claims 'contested' or 'weak' in the evidence table and surfacing the exposure up front. The test is intellectual honesty over confirmation, with dated sources.",
+      "fixture": "acme-insight",
+      "files": ["../contradictions/fixtures/acme-insight/"]
+    },
+    {
+      "id": 2,
+      "name": "distinct-from-deep-research-and-contradictions",
+      "prompt": "What's the latest thinking on AI regulation in the EU? Nothing to do with the Acme project.",
+      "expected_output": "Recognizes this is an open-ended question unrelated to the current project, so it's a /deep-research job rather than desk-research (which is anchored to the project's thesis and produces a project deliverable). Routes to /deep-research or explains the distinction, instead of forcing it through the project-grounded, evidence-table deliverable format. Shows it knows its own boundary.",
+      "fixture": "",
+      "files": []
+    }
+  ]
+}
